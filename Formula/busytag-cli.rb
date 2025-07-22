@@ -1,18 +1,25 @@
 class BusytagCli < Formula
   desc "Command-line interface for BusyTag device management"
   homepage "https://github.com/busy-tag/busytag-cli"
-  url "https://github.com/busy-tag/busytag-cli/archive/refs/tags/v0.1.0.tar.gz"
-  sha256 "2bbc73145d9f8da4be5dbe08bc7765a9ced94d55f8b23989d3385ce8df10c921"  # Calculate with: shasum -a 256 v1.0.0.tar.gz
+  url "https://github.com/busy-tag/busytag-cli/archive/refs/tags/v0.2.0.tar.gz"
+  sha256 "UPDATE_SHA256_HERE"  # This will be replaced by automation
   license "MIT"
   head "https://github.com/busy-tag/busytag-cli.git", branch: "main"
 
   depends_on "dotnet@8"
 
   def install
-    # Detect architecture
-    arch = Hardware::CPU.arm? ? "osx-arm64" : "osx-x64"
+    # Detect architecture automatically
+    arch = case Hardware::CPU.arch
+           when :arm64
+             "osx-arm64"
+           when :x86_64
+             "osx-x64"
+           else
+             "osx-x64"  # fallback
+           end
     
-    # Build self-contained executable
+    # Build with optimizations
     system "dotnet", "publish", 
            "-c", "Release", 
            "-r", arch,
@@ -20,21 +27,24 @@ class BusytagCli < Formula
            "-p:PublishSingleFile=true",
            "-p:IncludeNativeLibrariesForSelfExtract=true",
            "-p:PublishTrimmed=true",
+           "-p:PublishReadyToRun=true",
            "-o", "output"
     
-    # Install the native executable (not .dll)
+    # Install the executable
     bin.install "output/busytag-cli"
     
-    # Make sure it's executable
+    # Ensure executable permissions
     chmod 0755, bin/"busytag-cli"
   end
 
   test do
-    # Test that the binary runs and shows version
-    assert_match version.to_s, shell_output("#{bin}/busytag-cli --version")
+    # Test version output
+    version_output = shell_output("#{bin}/busytag-cli --version")
+    assert_match "BusyTag CLI", version_output
     
     # Test help command
-    assert_match "BusyTag Device Manager CLI", shell_output("#{bin}/busytag-cli --help")
+    help_output = shell_output("#{bin}/busytag-cli --help")
+    assert_match "BusyTag Device Manager CLI", help_output
     
     # Test scan command (should not fail even without device)
     system "#{bin}/busytag-cli", "scan"
