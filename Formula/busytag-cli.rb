@@ -1,8 +1,8 @@
 class BusytagCli < Formula
   desc "Command-line interface for BusyTag device management"
   homepage "https://github.com/busy-tag/busytag-cli"
-  url "https://github.com/busy-tag/busytag-cli/archive/refs/tags/v0.5.1.tar.gz"
-  sha256 "5cc4cb1a182557c05227b03bfcacc18e780b85b08b28236ef6983da31aa87192"  # This will be replaced by automation
+  url "https://github.com/busy-tag/busytag-cli/archive/refs/tags/v0.6.0.tar.gz"
+  sha256 "bc47629c76b82bcf7e515062a9e7dad2a5530815f783db6278c321023d9cfe81"  # This will be replaced by automation
   license "MIT"
   head "https://github.com/busy-tag/busytag-cli.git", branch: "main"
 
