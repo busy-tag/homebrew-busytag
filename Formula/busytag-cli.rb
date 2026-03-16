@@ -31,11 +31,13 @@ class BusytagCli < Formula
            "-p:PublishReadyToRun=true",
            "-o", "output"
     
-    # Install the executable
+    # Install the executable and bundled esptool
     bin.install "output/busytag-cli"
-    
+    (bin/"Tools").install Dir["output/Tools/*"]
+
     # Ensure executable permissions
     chmod 0755, bin/"busytag-cli"
+    chmod 0755, bin/"Tools/macos/esptool" if (bin/"Tools/macos/esptool").exist?
   end
 
   test do
