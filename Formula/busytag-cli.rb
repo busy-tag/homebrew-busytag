@@ -19,9 +19,10 @@ class BusytagCli < Formula
              "osx-x64"  # fallback
            end
     
-    # Build with optimizations
-    system "dotnet", "publish", 
-           "-c", "Release", 
+    # Build only the CLI project (not the full solution, which references the submodule)
+    system "dotnet", "publish",
+           "BusyTag.CLI/BusyTag.CLI.csproj",
+           "-c", "Release",
            "-r", arch,
            "--self-contained", "true",
            "-p:PublishSingleFile=true",
