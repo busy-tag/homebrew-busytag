@@ -4,7 +4,7 @@ class BusytagCli < Formula
   url "https://github.com/busy-tag/busytag-cli/archive/refs/tags/v0.6.1.tar.gz"
   sha256 "f16736949c4e09ce2c72a85d2eb597cc577345cae202950038617199b54aa46a"  # This will be replaced by automation
   license "MIT"
-  head "https://github.com/busy-tag/busytag-cli.git", branch: "main"
+  head "https://github.com/busy-tag/busytag-cli.git", branch: "master"
 
   depends_on "dotnet@8"
 
